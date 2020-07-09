@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import axios from 'axios';
 
 import { useParams, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { getJokes } from '../redux/modules/joke'
 
 function JokeDetails(props) {
   const { category } = useParams();
-  const [joke, setJoke] = useState('');
 
   const  mainPage = () => {
     props.history.push('/top');
   }
 
-  useEffect(() =>{
-    async function getJoke() {
-      let result = await axios({
-        method: 'GET',
-        url: `https://api.chucknorris.io/jokes/random?category=${category}`
-      })
+  const dispatch = useDispatch();
 
-      setJoke(result.data.value);
-    }
-    getJoke();
-  },[ category ]);
+  useEffect(() => {
+    dispatch(getJokes(category));
+  }, [ dispatch, category ]);
+
+  const jokes = useSelector(state => state.nameAtStore.jokes);
 
   return (
     <div>
@@ -35,7 +33,7 @@ function JokeDetails(props) {
       <p className="main-content">
         <b>{ category } </b>
         <hr />
-          { joke }
+          { jokes }
       </p>
     </div>
   );
