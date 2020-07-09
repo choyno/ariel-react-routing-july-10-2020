@@ -33,7 +33,7 @@ function JokeDetails(props) {
       <br />
 
       <p className="main-content">
-          { category }
+        <b>{ category } </b>
         <hr />
           { joke }
       </p>
