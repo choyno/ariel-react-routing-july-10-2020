@@ -2,24 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getCategories } from '../redux/modules/category'
+
 function Sidebar() {
 
-  const [categories, setCategories] = useState([]);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getCategories() {
-      let result = await axios({
-        method: 'GET',
-        url: 'https://api.chucknorris.io/jokes/categories'
-      });
-      setCategories(result.data);
-    }
-    getCategories();
+    dispatch(getCategories());
+  }, [ dispatch ]);
 
-  }, []);
-
-
+  const categories =  useSelector(state => state.category.categories);
 
   return (
     <nav>
